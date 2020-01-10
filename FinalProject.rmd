@@ -1,0 +1,56 @@
+NBA Statistics Machine Learning Project
+Harold Yancey
+
+Introduction 
+
+The NBA is premier basketball league in the world. Superstars like Steph Curry and Lebron James are household names. The Association topped $8 billion in revenue in 2018 and that number has been growing. At the heart of this is competition. NBA teams are constantly looking to gain a competitive advantage. Sabermetrics have been at the heart of a statistical revolution in Major League Baseball, so we must ask if the same strategy can be valuable in professional basketball. 
+
+The goal of this project is to establish which statistics are most important to if a team will win or lose a game and how predictive the stats can be. Can a model we built to accurately predict the outcome for a given team in a given game based solely on their own statistics without knowledge of the opponent's statistics.  
+
+Methods and Analysis 
+
+The first step to the analysis was to obtain data. A dataset was chosen that supplied basis team stats for regular season games during the 2014-2018 NBA seasons. This data was mined by Ionas Kelepouris from the website Basketball Reference and made available on Kaggle (Kelepouris, 2018). The dataset provided multiple states per game for each team. Any information pertaining to the opposing team, containing percentages rather than discrete numbers, or game identification information such as date or team names. 
+
+The next step was to examine the data to understand which state we most important to the overall question. The data was gathered into tidy format so that a single column contained all numeric statistics. It was then plotted as a boxplot categorized by if the game was won or lost. The result can be seen in the following graph. 
+
+ 
+
+Graph 1 
+
+Based on this chart several inferences can be made. First, logically it could be assumed that teams who score more will win more often, and the data clearly shows that to be true. Winning teams, on average, make more field goals (two-point shots), and three-point shots than losing teams. That shouldn’t be a revelation to anyone who is familiar with basketball. This is also true for assists (passing the ball to a player who scores). However, what may be is that the winning team averages less field goal attempts, and there is essentially no difference in the number of three-point attempts. We know from previous analysis that scoring in the MLB is closely related to at bats.  More attempts should logically lead to more production, but the opposite is true.  
+
+Next, we look at rebounds. Rebounds are an essential measure of a team's ability to win and that is played out in the data. Winners clearly average more rebounds than the losing team. This does not apply when looking at only offensive rebounds. There is little difference seen in offensive rebounds between winning and losing teams and in fact the losing team tends to slightly outrebound the winning team on offense. This could be caused by the losing team having more opportunity for offensive rebounds due to having more missed shots. 
+
+To better understand these trends and their relationship to each other, regression analysis was conducted. Statistics were stratified and the percentage of wins among each stratum was calculated. The relationships were plotted in the following scatterplot. 
+
+Graph 2 
+
+Clearly from the graph, assists, blocks, field goals, three-pointers, and total rebounds had strong relationships to winning games. Likewise, it is also seen that turnovers and fouls, both universally seen as negatives in basketball, are related to winning less often. Somewhat surprisingly this graph also shows a negative relationship between field goal attempts and offensive rebounds with winning. This phenomenon is not repeated with three-point attempts, where there is a positive, if slight, relationship with winning. Theoretically the team with the most shot attempts should also make the most shots, however this does not bare out in the data for two-point attempts. Likewise, offensive rebounding is almost always considered a positive thing, however, we see that teams who had more offensive rebounds tend to lose more often.  
+
+The analysis next considered the correlation of these statistics to each other to better understand their relationships to winning. A matrix of the data was created, and the correlation was calculated for each statistic against each other statistic. This analysis found some answers to the questions from above. Field goals and attempts were correlated at .44, while assists and field goals were correlated at .63. Using the pass to set up shots is more effective than creating your own. The most correlated statistic to offensive rebounds was shots attempted at .56, nothing else, outside of total rebounds, was higher than .2, which was total fouls, which is logical as crashing for offensive boards may lead to more foul calls under the basket. 
+
+Lastly, the lessons learned throughout the analysis were used to construct algorithms to predict if a team would win or lose a game, based on their own stats and without any knowledge of the opponent or their performance in the game. The decision was made to use an ensemble approach rather than any single model.  The models chosen for the ensemble were GLM, LDA, Naïve Bayes, SVM Linier, KNN, GAM Loess, Multinomial, QDA, and RF. Adaptive Boosting was initially included in the analysis but removed due to the excessive time it took to run; with greater computing power it could be reintroduced, however, results were not significantly changed after removing it. 
+
+The ensemble analysis was conducted four times with four separate parameters. A single variable analysis that looked at only field goals. Next was a two-variable analysis that looked at field goals and turnovers, due to each showing an opposite strong relationship to winning. Third a multivariable analysis looked at field goals, three-pointers, assists, and total rebounds, the stronger factors to winning. Lastly, a model was conducted that considered all data in the dataset. 
+
+Results 
+
+The results showed poor performance for the single and two-variable models at approximately 0.67 each. This is better than guessing but can be improved upon. The multivariable approach showed some improvement at .70, The best performing model was the one that considered all data, which was able to accurately predict winning games at 0.84.  
+
+Overall, the model performed well. The final model was able to predict Wins on the test set 84% of the time. Anyone who watches sports in general knows that there are games where a team plays poorly and manages to win or plays well and still loses, based on the opponent playing even worse or better, so a model that can predict at this rate is quite impressive. 
+
+Conclusion 
+
+In this report, the process of obtaining, wrangling, analyzing, and predicting the data is discussed. It found that some statistics in basketball are more predictive of winning games than others, while some statistics that are universally seen as positives are more associated with losing games than winning. Based on this information several models were built to predict if a team won or lost a game based solely on their own statistics while being blind to their opponents' performances. The models were more predictive than guessing but were not as successful as a model using all the categories in the dataset to make predictions. 
+
+This study was somewhat restricted by the available computing resources, as the model was forced exclude adaptive boosting as a modeling method due to the long computing times that were being experienced. 
+
+Potential future work would include performing single-variable analysis on more variables to see if any variables are more predictive than field goals alone, which appear to the stat most related to winning. It would also be helpful to expand this study to other levels of basketball such as the NCAA or foreign leagues. With different rules and gameplay, the results are likely to be different as well. This could be helpful in extrapolating the success of a player in these leagues to the NBA. 
+
+ 
+
+Citations: 
+
+Kelepouris, Ionas. 2018. “NBA Team Game Stats from 2014 to 2018. 
+
+https://www.kaggle.com/ionaskel/nba-games-stats-from-2014-to-2018 
